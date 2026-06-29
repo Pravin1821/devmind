@@ -1,4 +1,16 @@
 {
+  "name": "devmind",
+  "version": "1.0.0",
+  "description": "A CLI tool that gives AI coding assistants persistent memory",
+  "main": "dist/cli/index.js",
+  "scripts": {
+    "build": "tsc",
+    "dev": "ts-node src/cli/index.ts",
+    "start": "node dist/cli/index.js",
+    "init": "ts-node src/cli/index.ts init",
+    "scan": "ts-node src/cli/index.ts scan",
+    "status": "ts-node src/cli/index.ts status"
+  },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.106.0",
     "better-sqlite3": "^12.11.1",
