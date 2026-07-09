@@ -11,7 +11,8 @@
     "scan": "ts-node src/cli/index.ts scan",
     "status": "ts-node src/cli/index.ts status",
     "duplicates": "ts-node src/cli/index.ts duplicates",
-    "check": "ts-node src/cli/index.ts check"
+    "check": "ts-node src/cli/index.ts check",
+    "ask": "ts-node src/cli/index.ts ask"
   },
   "dependencies": {
     "@anthropic-ai/sdk": "^0.106.0",

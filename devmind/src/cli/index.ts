@@ -3,6 +3,7 @@ import chalk from 'chalk';
 import {initializeStore} from '../memory/store';
 import {scanProject} from '../scanner/fileScanner';
 import { findDuplicates, checkPrompt } from '../analyzer/dupDetector';
+import { askOllama } from '../ai/ollama';
 
 const program = new Command();
 program
@@ -120,5 +121,23 @@ program
             console.log(chalk.red(`Error checking prompt: ${error}`));
           }
         });
+
+program
+  .command('ask <prompt>')
+  .description('Ask AI with full project context injected')
+  .action(async (prompt: string) => {
+    try{
+      const projectPath = process.cwd();
+      const store = initializeStore(projectPath);
+      console.log(chalk.blue(`\ndevmind ask: ${prompt}\n`));
+      const response = await askOllama(prompt, store);
+      console.log(chalk.green(`\n$AI Response: ${response}\n`));
+      console.log('');
+    }
+    catch(error){
+      console.log(chalk.red(`Error asking AI: ${error}`));
+      console.log(chalk.gray('Make sure Ollama is running: Ollama server'));
+    }
+  })
 
 program.parse(process.argv);
