@@ -6,7 +6,25 @@ import chalk from 'chalk';
 const OLLAMA_URL = 'http://localhost:11434';
 const MODEL = 'llama3.2';
 
+async function checkOllama(): Promise<boolean> {
+    try {
+        const res = await fetch('http://localhost:11434')
+        return res.ok
+    } catch {
+        return false
+    }
+}
+
 export async function askOllama(prompt: string, store: DevmindStore): Promise<string> {
+    const isRunning = await checkOllama()
+    if (!isRunning) {
+        console.log(chalk.red('✗ Ollama not running!'))
+        console.log(chalk.yellow('  1. Install Ollama from ollama.com'))
+        console.log(chalk.yellow('  2. Run: ollama pull llama3.2'))
+        console.log(chalk.yellow('  3. Ollama starts automatically after install'))
+        return ''
+    }
+
     console.log('Buiilding context from memory...');
     const context = await buildContext(prompt, store);
     const fullPromt = context + `USER PROMPT:\n${prompt}`;

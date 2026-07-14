@@ -6,7 +6,7 @@ let embedder: any = null;
 async function getEmbedder() {
     if(!embedder){
         console.log('Loading local AI model (first time only)');
-        embedder = await pipeline('feature-extraction', 'Xenova/codebert-base');
+        embedder = await pipeline('feature-extraction', 'Xenova/all-mpnet-base-v2');
         console.log('AI model loaded');
     }
     return embedder;
