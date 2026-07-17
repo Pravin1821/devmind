@@ -1,4 +1,4 @@
-import { DevmindStore } from "../memory/store";
+import { CodePiStore } from "../memory/store";
 import { buildContext } from "../context/builder";
 import { askOllama } from "./providers/ollama";
 import Anthropic from "@anthropic-ai/sdk";
@@ -36,7 +36,7 @@ function getConfig(): AIConfig {
 
 async function askOpenAI(
   prompt: string,
-  store: DevmindStore,
+  store: CodePiStore,
   config: AIConfig,
   fullPrompt: string
 ): Promise<string> {
@@ -75,7 +75,7 @@ async function askOpenAI(
 
 async function askAnthropic(
   _prompt: string,
-  _store: DevmindStore,
+  _store: CodePiStore,
   config: AIConfig,
   fullPrompt: string
 ): Promise<string> {
@@ -97,7 +97,7 @@ async function askAnthropic(
 
 export async function askAI(
   prompt: string,
-  store: DevmindStore
+  store: CodePiStore
 ): Promise<string> {
   const config = getConfig();
 

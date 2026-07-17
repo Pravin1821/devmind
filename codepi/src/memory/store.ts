@@ -2,7 +2,7 @@ import Database from 'better-sqlite3';
 import fs from 'fs';
 import path from 'path';
 
-export interface DevmindStore {
+export interface CodePiStore {
     db: Database.Database;
     addFile: (filePath: string, language:string, summary: string) => void;
     addTask: (prompt: string, result: string, status: string) => void
@@ -18,14 +18,14 @@ export interface DevmindStore {
     getTokenLogs: () => any[]
 }
 
-export function initializeStore(projectPath: string): DevmindStore {
-    const devmindDir = path.join(projectPath, '.devmind');
-    if (!fs.existsSync(devmindDir)) {
-        fs.mkdirSync(devmindDir,{recursive: true});
-        console.log(`Created .devmind directory at ${devmindDir}`);
+export function initializeStore(projectPath: string): CodePiStore {
+    const codepiDir = path.join(projectPath, '.codepi');
+    if (!fs.existsSync(codepiDir)) {
+        fs.mkdirSync(codepiDir,{recursive: true});
+        console.log(`Created .codepi directory at ${codepiDir}`);
     }
 
-    const dbPath = path.join(devmindDir, 'memory.db')
+    const dbPath = path.join(codepiDir, 'memory.db')
     const db = new Database(dbPath);
     db.pragma('journal_mode = WAL');
 

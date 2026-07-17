@@ -1,6 +1,6 @@
 import path from 'path';
 import chalk from 'chalk';
-import { DevmindStore } from '../memory/store';
+import { CodePiStore } from '../memory/store';
 import { generateEmbedding, cosineSimilarity } from '../embeddings/embedder';
 
 export interface DuplicateResult {
@@ -10,7 +10,7 @@ export interface DuplicateResult {
     verdict: string;
 }
 
-export function findDuplicates(store: DevmindStore, threshold: number = 0.85): DuplicateResult[]{
+export function findDuplicates(store: CodePiStore, threshold: number = 0.85): DuplicateResult[]{
     const files = store.getFiles();
     if(files.length < 2)
     {
@@ -76,7 +76,7 @@ export interface PromptMatch{
 
 export async function checkPrompt(
     prompt: string,
-    store: DevmindStore,
+    store: CodePiStore,
     threshold: number = 0.2
 ): Promise<PromptMatch[]>{
     console.log(chalk.gray('  ◇ Analyzing prompt...'));
@@ -97,7 +97,7 @@ export async function checkPrompt(
     // }
     if(files.length ===0 )
     {
-        console.log('No files in memory - run devmind scan first');
+        console.log('No files in memory - run codepi scan first');
         return [];
     }
 

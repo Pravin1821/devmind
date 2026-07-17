@@ -12,22 +12,22 @@ const { version } = require('../../package.json');
 
 const program = new Command();
 program
-  .name('devmind')
-  .description('AI memory layer for your codebase')
+  .name('codepi')
+  .description('Persistent project intelligence for AI coding assistants')
   .version(version);
 
 program
   .command('init')
-  .description('Initialize devmind memory for this project')
+  .description('Initialize codepi memory for this project')
   .action(() => {
     try{
         const projectPath = process.cwd();
-        console.log(chalk.blue(`Initializing devmind memory for ${projectPath}`));
+        console.log(chalk.blue(`Initializing codepi memory for ${projectPath}`));
         const store = initializeStore(projectPath);
-        console.log(chalk.green('Devmind memory initialized!'));
-        console.log(chalk.gray(`Memory stored at: ${projectPath}/.devmind/memory.db`));
+        console.log(chalk.green('CodePi memory initialized!'));
+        console.log(chalk.gray(`Memory stored at: ${projectPath}/.codepi/memory.db`));
     } catch (error) {
-        console.log(chalk.red(`Error initializing devmind memory: ${error}`));
+        console.log(chalk.red(`Error initializing codepi memory: ${error}`));
     }
   });
 
@@ -42,7 +42,7 @@ program
       console.log(chalk.blue('Scanning project...'))
       const files = await scanProject(projectPath, store)
       console.log(chalk.green(`Scanned and embedded ${files.length} files`))
-      console.log(chalk.gray(`Memory stored at: ${projectPath}/.devmind/memory.db`))
+      console.log(chalk.gray(`Memory stored at: ${projectPath}/.codepi/memory.db`))
     } catch (error) {
       console.log(chalk.red(`Error scanning project: ${error}`));
     }
@@ -63,7 +63,7 @@ program
       const tokenLogs = store.getTokenLogs();
 
       console.log(chalk.bold.blue('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'))
-      console.log(chalk.bold.white('  devmind — project intelligence'))
+      console.log(chalk.bold.white('  codepi — project intelligence'))
       console.log(chalk.bold.blue('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'))
 
       console.log(chalk.bold.yellow('  MEMORY'))
@@ -109,8 +109,8 @@ program
       console.log(chalk.bold.blue('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'))
 
     } catch (error) {
-      console.log(chalk.red('✗ Could not read devmind memory'))
-      console.log(chalk.gray('  Run devmind init first'))
+      console.log(chalk.red('✗ Could not read codepi memory'))
+      console.log(chalk.gray('  Run codepi init first'))
     }
   });
 
@@ -176,7 +176,7 @@ program
     try{
       const projectPath = process.cwd();
       const store = initializeStore(projectPath);
-      console.log(chalk.bold.cyan('\n╭─ devmind ask ─────────────────────────────────╮'));
+      console.log(chalk.bold.cyan('\n╭─ codepi ask ──────────────────────────────────╮'));
       console.log(chalk.white(`  ${prompt}`));
       console.log(chalk.bold.cyan('╰────────────────────────────────────────────────╯\n'));
       const response = await askAI(prompt, store);
@@ -200,11 +200,11 @@ program
       const tasks = store.getTasks();
 
       if(tasks.length === 0){
-        console.log(chalk.yellow('No history yet - use devmind ask to start a conversation!'));
+        console.log(chalk.yellow('No history yet - use codepi ask to start a conversation!'));
         return;
       }
       console.log(chalk.bold.blue('\n━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━'))
-      console.log(chalk.bold.white('  devmind history'))
+      console.log(chalk.bold.white('  codepi history'))
       console.log(chalk.bold.blue('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━\n'))
 
       tasks.reverse().forEach((task: any, i: number) => {
@@ -218,7 +218,7 @@ program
 
     } catch (error) {
       console.log(chalk.red('✗ Could not read history'))
-      console.log(chalk.gray('  Run devmind init first'))
+      console.log(chalk.gray('  Run codepi init first'))
     }
   })
 

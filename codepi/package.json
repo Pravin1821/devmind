@@ -1,10 +1,10 @@
 {
-  "name": "devmind",
+  "name": "codepi",
   "version": "0.2.0",
-  "description": "AI persistent memory layer for your codebase — works with OpenAI, NVIDIA, Anthropic, or local Ollama",
+  "description": "Persistent project intelligence for AI coding assistants — no duplicate code, smart context, token savings",
   "main": "dist/cli/index.js",
   "bin": {
-    "devmind": "./dist/cli/index.js"
+    "codepi": "./dist/cli/index.js"
   },
   "files": [
     "dist/",
@@ -29,6 +29,7 @@
     "ai",
     "cli",
     "developer-tools",
+    "codepi",
     "memory",
     "duplicate-detection",
     "llm",
@@ -44,12 +45,12 @@
   "license": "MIT",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/PRAVIN-SK/devmind.git"
+    "url": "git+https://github.com/PRAVIN-SK/codepi.git"
   },
   "bugs": {
-    "url": "https://github.com/PRAVIN-SK/devmind/issues"
+    "url": "https://github.com/PRAVIN-SK/codepi/issues"
   },
-  "homepage": "https://github.com/PRAVIN-SK/devmind#readme",
+  "homepage": "https://github.com/PRAVIN-SK/codepi#readme",
   "engines": {
     "node": ">=18.0.0"
   },

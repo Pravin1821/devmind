@@ -1,14 +1,14 @@
-import {DevmindStore} from '../memory/store';
+import {CodePiStore} from '../memory/store';
 import {checkPrompt} from '../analyzer/dupDetector';
 
-export async function buildContext(prompt: string, store: DevmindStore): Promise<string>{
+export async function buildContext(prompt: string, store: CodePiStore): Promise<string>{
     const files = store.getFiles();
     const tasks = store.getTasks();
     const decisions = store.getDecisions();
     const projectPath = process.cwd();
 
     const relatedFiles = await checkPrompt(prompt, store, 0.2);
-    let context = `[PROJECT CONTEXT — scanned by devmind]
+    let context = `[PROJECT CONTEXT — scanned by codepi]
                     Project location: ${projectPath}\n\n`;
 
     if (files.length > 0) {

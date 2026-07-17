@@ -1,13 +1,13 @@
 import path from 'path';
 import fs from 'fs';
-import { DevmindStore } from '../memory/store';
+import { CodePiStore } from '../memory/store';
 import { generateEmbedding } from '../embeddings/embedder';
 import chalk from 'chalk';
 
 const IGNORED_DIRS = [
     'node_modules',
     '.git',
-    '.devmind',
+    '.codepi',
     'dist',
     'build',
     'coverage',
@@ -107,7 +107,7 @@ function collectFiles(dirPath: string, result: string[] = []): string[]{
     return result;
 }
 
-export async function scanProject(projectPath: string, store: DevmindStore): Promise<string[]>{
+export async function scanProject(projectPath: string, store: CodePiStore): Promise<string[]>{
     const allFiles = collectFiles(projectPath);
     for(const filePath of allFiles){
         const language = getLanguage(filePath);

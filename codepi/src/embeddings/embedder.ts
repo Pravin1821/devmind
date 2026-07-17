@@ -1,7 +1,7 @@
 import { pipeline, env} from '@xenova/transformers';
 import chalk from 'chalk';
 
-env.cacheDir = './.devmind/models'
+env.cacheDir = './.codepi/models'
 let embedder: any = null;
 
 async function getEmbedder() {

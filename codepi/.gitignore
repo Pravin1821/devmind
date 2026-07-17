@@ -10,8 +10,8 @@ build/
 .env.local
 .env.production
 
-# devmind local memory - every developer has their own
-.devmind/
+# codepi local memory - every developer has their own
+.codepi/
 *.db
 *.db-journal
 *.db-wal
