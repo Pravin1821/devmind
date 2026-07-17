@@ -1,10 +1,11 @@
 #!/usr/bin/env node
+import 'dotenv/config'
 import {Command} from 'commander';
 import chalk from 'chalk';
 import {initializeStore} from '../memory/store';
 import {scanProject} from '../scanner/fileScanner';
 import { findDuplicates, checkPrompt } from '../analyzer/dupDetector';
-import { askOllama } from '../ai/ollama';
+import { askAI } from '../ai/provider';
 
 const program = new Command();
 program
@@ -172,14 +173,17 @@ program
     try{
       const projectPath = process.cwd();
       const store = initializeStore(projectPath);
-      console.log(chalk.blue(`\ndevmind ask: ${prompt}\n`));
-      const response = await askOllama(prompt, store);
-      console.log(chalk.green(`\n$AI Response: ${response}\n`));
-      console.log('');
+      console.log(chalk.bold.cyan('\n╭─ devmind ask ─────────────────────────────────╮'));
+      console.log(chalk.white(`  ${prompt}`));
+      console.log(chalk.bold.cyan('╰────────────────────────────────────────────────╯\n'));
+      const response = await askAI(prompt, store);
+      console.log(chalk.bold('\n── Response ──────────────────────────────────────'));
+      console.log(chalk.white(`${response}`));
+      console.log(chalk.bold('──────────────────────────────────────────────────\n'));
     }
     catch(error){
-      console.log(chalk.red(`Error asking AI: ${error}`));
-      console.log(chalk.gray('Make sure Ollama is running: Ollama server'));
+      console.log(chalk.red(`\n✗ Error: ${error}`));
+      console.log(chalk.gray('  Check your .env config or AI provider setup\n'));
     }
   })
 

@@ -1,4 +1,5 @@
 import path from 'path';
+import chalk from 'chalk';
 import { DevmindStore } from '../memory/store';
 import { generateEmbedding, cosineSimilarity } from '../embeddings/embedder';
 
@@ -78,7 +79,7 @@ export async function checkPrompt(
     store: DevmindStore,
     threshold: number = 0.2
 ): Promise<PromptMatch[]>{
-    console.log('Analyzing prompt...');
+    console.log(chalk.gray('  ◇ Analyzing prompt...'));
     const promptEmbedding = await generateEmbedding(prompt)
     if(promptEmbedding.length === 0){
         console.log('Failed to generate embedding for prompt');

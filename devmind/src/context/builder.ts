@@ -5,9 +5,11 @@ export async function buildContext(prompt: string, store: DevmindStore): Promise
     const files = store.getFiles();
     const tasks = store.getTasks();
     const decisions = store.getDecisions();
+    const projectPath = process.cwd();
 
     const relatedFiles = await checkPrompt(prompt, store, 0.2);
-    let context = `[DEVMIND PROJECT CONTEXT]\n\n`;
+    let context = `[PROJECT CONTEXT — scanned by devmind]
+                    Project location: ${projectPath}\n\n`;
 
     if (files.length > 0) {
         context += `ALREADY BUILT (do not rebuild these):\n`

@@ -1,13 +1,14 @@
 import { pipeline, env} from '@xenova/transformers';
+import chalk from 'chalk';
 
 env.cacheDir = './.devmind/models'
 let embedder: any = null;
 
 async function getEmbedder() {
     if(!embedder){
-        console.log('Loading local AI model (first time only)');
+        console.log(chalk.gray('  ◇ Loading embedding model...'));
         embedder = await pipeline('feature-extraction', 'Xenova/all-mpnet-base-v2');
-        console.log('AI model loaded');
+        console.log(chalk.gray('  ◇ Embedding model ready'));
     }
     return embedder;
 }
