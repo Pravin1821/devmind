@@ -13,12 +13,13 @@ interface AIConfig {
   baseURL?: string;
 }
 
-function getConfig(): AIConfig {
-  const raw = (process.env.AI_PROVIDER || "ollama").toLowerCase();
-  const provider = (["openai", "nvidia", "anthropic", "ollama"].includes(raw)
+function getConfig(provider?: AIProvider): AIConfig {
+  const raw = (provider || process.env.AI_PROVIDER || "").toLowerCase();
+  const resolvedProvider = (["openai", "nvidia", "anthropic", "ollama"].includes(raw)
     ? raw
     : "ollama") as AIProvider;
   const apiKey =
+    process.env.NVIDIA_API_KEY ||
     process.env.AI_API_KEY ||
     process.env.OPENAI_API_KEY ||
     process.env.ANTHROPIC_API_KEY;
@@ -31,7 +32,55 @@ function getConfig(): AIConfig {
     ollama: process.env.AI_MODEL || "llama3.2",
   };
 
-  return { provider, model: modelMap[provider], apiKey, baseURL };
+  return { provider: resolvedProvider, model: modelMap[resolvedProvider], apiKey, baseURL };
+}
+
+async function detectProvider(): Promise<AIConfig> {
+  if (process.env.AI_PROVIDER) {
+    return getConfig();
+  }
+
+  if (process.env.NVIDIA_API_KEY || process.env.AI_API_KEY) {
+    return {
+      provider: 'nvidia',
+      model: process.env.AI_MODEL || 'meta/llama-3.1-8b-instruct',
+      apiKey: process.env.NVIDIA_API_KEY || process.env.AI_API_KEY as string,
+      baseURL: process.env.AI_BASE_URL || 'https://integrate.api.nvidia.com/v1',
+    };
+  }
+
+  if (process.env.OPENAI_API_KEY) {
+    return {
+      provider: 'openai',
+      model: process.env.AI_MODEL || 'gpt-4o',
+      apiKey: process.env.OPENAI_API_KEY,
+      baseURL: process.env.AI_BASE_URL || 'https://api.openai.com/v1',
+    };
+  }
+
+  if (process.env.ANTHROPIC_API_KEY) {
+    return {
+      provider: 'anthropic',
+      model: process.env.AI_MODEL || 'claude-sonnet-4-20250514',
+      apiKey: process.env.ANTHROPIC_API_KEY,
+      baseURL: process.env.AI_BASE_URL || '',
+    };
+  }
+
+  try {
+    const res = await fetch('http://localhost:11434', { signal: AbortSignal.timeout(2000) });
+    if (res.ok) {
+      return {
+        provider: 'ollama',
+        model: process.env.AI_MODEL || 'llama3.2',
+        baseURL: process.env.OLLAMA_URL || 'http://localhost:11434',
+      };
+    }
+  } catch {
+    // Ollama not running
+  }
+
+  throw new Error('NO_PROVIDER');
 }
 
 async function askOpenAI(
@@ -99,7 +148,7 @@ export async function askAI(
   prompt: string,
   store: CodePiStore
 ): Promise<string> {
-  const config = getConfig();
+  const config = await detectProvider();
 
   console.log(chalk.gray('  ◇ Building context...'));
   const context = await buildContext(prompt, store);

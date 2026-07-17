@@ -5,12 +5,16 @@ env.cacheDir = './.codepi/models'
 let embedder: any = null;
 
 async function getEmbedder() {
-    if(!embedder){
-        console.log(chalk.gray('  ◇ Loading embedding model...'));
-        embedder = await pipeline('feature-extraction', 'Xenova/all-mpnet-base-v2');
-        console.log(chalk.gray('  ◇ Embedding model ready'));
+    if (!embedder) {
+        console.log(chalk.yellow('  Downloading AI model (~25MB) — first time only...'))
+        console.log(chalk.gray('  This will be cached and never downloaded again'))
+        embedder = await pipeline(
+            'feature-extraction',
+            'Xenova/all-mpnet-base-v2'
+        )
+        console.log(chalk.green('  ✓ AI model ready!'))
     }
-    return embedder;
+    return embedder
 }
 
 export async function generateEmbedding(text: string): Promise<number[]> {

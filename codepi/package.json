@@ -1,7 +1,7 @@
 {
   "name": "@pravin_sk/codepi",
   "preferGlobal": true,
-  "version": "0.2.0",
+  "version": "0.3.0",
   "description": "Persistent project intelligence for AI coding assistants — no duplicate code, smart context, token savings",
   "main": "dist/cli/index.js",
   "bin": {

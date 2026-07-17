@@ -20,11 +20,11 @@ codepi sits between you and your AI assistant. It:
 ## Prerequisites
 
 - **Node.js** 18 or later
-- **Ollama** (for local AI provider) — [ollama.com](https://ollama.com)
-  ```bash
-  ollama pull llama3.2
-  ```
-  Or use a cloud provider: OpenAI, Anthropic, or NVIDIA (free tier available).
+- **API key** (free) from one of these providers:
+  - **NVIDIA** (recommended) — free tier at [build.nvidia.com](https://build.nvidia.com)
+  - **Anthropic** — [console.anthropic.com](https://console.anthropic.com)
+  - **OpenAI** — [platform.openai.com](https://platform.openai.com)
+- **Ollama** (optional) — local AI, no API key needed: [ollama.com](https://ollama.com)
 
 ## Installation
 
@@ -34,23 +34,35 @@ npm install -g @pravin-sk/codepi
 
 ## Quick Start
 
+### 1. Get a free API key (pick one)
+
+| Provider | Free Tier | Link |
+|---|---|---|
+| NVIDIA | Yes — generous free tier | [build.nvidia.com](https://build.nvidia.com) |
+| Anthropic | Limited free credits | [console.anthropic.com](https://console.anthropic.com) |
+| OpenAI | Requires billing | [platform.openai.com](https://platform.openai.com) |
+| Ollama | Free — runs locally | [ollama.com](https://ollama.com) |
+
+### 2. Add key to your project
+
+Create a `.env` file in your project folder:
+
 ```bash
-# 1. Initialize codepi in your project
+NVIDIA_API_KEY=your_key_here
+```
+
+### 3. Start using codepi
+
+```bash
 cd my-project
 codepi init
-
-# 2. Scan your codebase
 codepi scan
-
-# 3. Ask a question with full project context
 codepi ask "Explain the architecture of this project"
-
-# 4. Check if something already exists before building
 codepi check "authentication middleware"
-
-# 5. See what codepi knows about your project
 codepi status
 ```
+
+No Ollama required. Works immediately with any free API key.
 
 ## Commands
 
@@ -92,13 +104,14 @@ Create a `.env` file in your project root:
 
 | Variable | Default | Description |
 |---|---|---|
-| `AI_PROVIDER` | `ollama` | AI provider: `ollama`, `openai`, `anthropic`, `nvidia` |
-| `AI_MODEL` | `llama3.2` | Model name for the chosen provider |
-| `AI_API_KEY` | — | API key for cloud providers (OpenAI, Anthropic, NVIDIA) |
-| `AI_BASE_URL` | — | Custom API endpoint (e.g., NVIDIA: `https://integrate.api.nvidia.com/v1`) |
+| `NVIDIA_API_KEY` | — | NVIDIA free API key (recommended) |
+| `AI_PROVIDER` | auto-detect | Force provider: `nvidia`, `openai`, `anthropic`, `ollama` |
+| `AI_MODEL` | per-provider default | Override model name |
+| `AI_API_KEY` | — | Fallback API key for nvidia/openai/anthropic |
+| `OPENAI_API_KEY` | — | OpenAI API key |
+| `ANTHROPIC_API_KEY` | — | Anthropic API key |
+| `AI_BASE_URL` | — | Custom API endpoint |
 | `AI_TIMEOUT` | `300000` | Request timeout in milliseconds (default: 5 min) |
-| `ANTHROPIC_API_KEY` | — | Fallback Anthropic API key |
-| `OPENAI_API_KEY` | — | Fallback OpenAI API key |
 | `OLLAMA_URL` | `http://localhost:11434` | Ollama server URL |
 
 ## Supported AI Providers

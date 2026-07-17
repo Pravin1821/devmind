@@ -185,8 +185,29 @@ program
       console.log(chalk.bold('──────────────────────────────────────────────────\n'));
     }
     catch(error){
-      console.log(chalk.red(`\n✗ Error: ${error}`));
-      console.log(chalk.gray('  Check your .env config or AI provider setup\n'));
+      const msg = error instanceof Error ? error.message : String(error);
+      if (msg === 'NO_PROVIDER') {
+        console.log(chalk.bold.yellow('\n  No AI provider configured!\n'));
+        console.log(chalk.white('  Quick setup — choose one:\n'));
+        console.log(chalk.bold.green('  Option 1 — NVIDIA (Free, Recommended)'));
+        console.log(chalk.gray('  Get free API key: build.nvidia.com'));
+        console.log(chalk.gray('  Add to .env in your project:'));
+        console.log(chalk.white('    NVIDIA_API_KEY=your_key_here\n'));
+        console.log(chalk.bold.blue('  Option 2 — Anthropic Claude'));
+        console.log(chalk.gray('  console.anthropic.com'));
+        console.log(chalk.white('    ANTHROPIC_API_KEY=your_key_here\n'));
+        console.log(chalk.bold.white('  Option 3 — OpenAI'));
+        console.log(chalk.gray('  platform.openai.com'));
+        console.log(chalk.white('    OPENAI_API_KEY=your_key_here\n'));
+        console.log(chalk.bold.gray('  Option 4 — Ollama (Local, Private)'));
+        console.log(chalk.gray('  ollama.com → install → ollama pull llama3.2'));
+        console.log(chalk.gray('  No API key needed — runs on your machine\n'));
+        console.log(chalk.gray('  After adding key — run codepi ask again'));
+        console.log(chalk.gray('\u2500'.repeat(50)));
+      } else {
+        console.log(chalk.red(`\n\u2717 Error: ${msg}`));
+        console.log(chalk.gray('  Check your .env config or AI provider setup\n'));
+      }
     }
   })
 
